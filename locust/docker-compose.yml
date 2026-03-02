@@ -1,0 +1,46 @@
+version: '3.8'
+
+# Locust 성능 테스트 환경
+# - locust-master: 웹 UI 및 테스트 조율 (포트 8089)
+# - locust-worker: 실제 부하 생성 (scale 옵션으로 수평 확장 가능)
+#
+# 실행 방법:
+#   기본 실행: docker compose up
+#   워커 수 확장: docker compose up --scale locust-worker=4
+
+services:
+  locust-master:
+    image: locustio/locust:latest
+    container_name: locust-master
+    ports:
+      - "8089:8089"   # 웹 UI 포트
+      - "5557:5557"   # 마스터-워커 통신 포트
+    volumes:
+      - ./scripts:/mnt/locust
+    command: >
+      -f /mnt/locust/locustfile.py
+      --master
+      --host=http://host.docker.internal:8080
+    networks:
+      - locust-network
+    restart: unless-stopped
+
+  locust-worker:
+    image: locustio/locust:latest
+    volumes:
+      - ./scripts:/mnt/locust
+    command: >
+      -f /mnt/locust/locustfile.py
+      --worker
+      --master-host=locust-master
+    networks:
+      - locust-network
+    depends_on:
+      - locust-master
+    restart: unless-stopped
+    deploy:
+      replicas: 2  # 기본 워커 수 (docker compose up --scale locust-worker=N 으로 변경 가능)
+
+networks:
+  locust-network:
+    driver: bridge

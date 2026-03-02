@@ -1,0 +1,35 @@
+version: '3.8'
+
+# 성능 테스트 대상 서버
+#
+# 실행 방법:
+#   최초 실행 (이미지 빌드 포함):  docker compose up -d --build
+#   이후 실행:                    docker compose up -d
+#
+# 접속:
+#   웹 대시보드:   http://localhost:8080        (실시간 부하 현황)
+#   헬스체크:     http://localhost:8080/health
+#   상품 목록:    http://localhost:8080/api/items
+#
+# Locust / k6에서 접근하는 주소:
+#   http://host.docker.internal:8080
+#
+# app.py 수정 후 재배포:
+#   docker compose up -d --build
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: performance-test-target:latest
+    container_name: target-server
+    ports:
+      - "8080:8080"   # 호스트 포트 8080 → 컨테이너 포트 8080
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
