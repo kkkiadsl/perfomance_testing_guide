@@ -1,0 +1,10 @@
+# 성능 테스트 실습 Python 의존 패키지
+# 설치 명령어: pip install -r requirements.txt
+
+# ── 대상 서버 (target-server) ──────────────────────────────────────────────
+fastapi==0.115.12
+uvicorn[standard]==0.34.0
+pydantic==2.11.1
+
+# ── Locust 성능 테스트 도구 ────────────────────────────────────────────────
+locust==2.34.0
