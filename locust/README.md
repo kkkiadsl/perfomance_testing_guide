@@ -36,6 +36,17 @@ pip install fastapi uvicorn pydantic
 uvicorn app:app --host 0.0.0.0 --port 8080
 ```
 
+> **`uvicorn: command not found` 오류 발생 시**
+> `pip install` 후에도 명령이 인식되지 않으면 아래 방법을 시도한다.
+>
+> ```bash
+> # pip3로 재설치
+> pip3 install fastapi uvicorn pydantic
+>
+> # 또는 python 모듈로 직접 실행
+> python3 -m uvicorn app:app --host 0.0.0.0 --port 8080
+> ```
+
 브라우저에서 `http://localhost:8080` 접속 → 실시간 모니터링 대시보드가 표시되면 정상.
 
 ### 3단계: Locust 실행
