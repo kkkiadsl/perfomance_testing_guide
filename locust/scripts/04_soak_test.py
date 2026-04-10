@@ -8,13 +8,13 @@
   locust -f 04_soak_test.py --host=http://localhost:8080
 
   Web UI 설정 권장값 (실습용 단축 버전):
-    Number of users : 15
-    Spawn rate      : 3
+    Number of users : 150
+    Spawn rate      : 10
     Run time        : 10분 이상 (실제 운영 환경에서는 4~8시간)
 
   CLI로 시간 고정 실행:
     locust -f 04_soak_test.py --host=http://localhost:8080 \\
-           --headless -u 15 -r 3 --run-time 10m
+           --headless -u 150 -r 10 --run-time 10m
 
 확인 포인트:
   - 초반(1분) vs 후반(9분) 응답시간을 비교한다.
@@ -42,9 +42,9 @@ class SoakTestShape(LoadTestShape):
 
     # (경과 시간 초, 목표 사용자 수, 초당 spawn 수)
     stages = [
-        (60,  15, 3),     # 0~60초   : Ramp-up (15명까지 점진적 증가)
-        (540, 15, 1),     # 60~540초 : Steady  (15명 유지, 약 8분)
-        (600, 0,  10),    # 540~600초: Ramp-down
+        (60,  150, 10),   # 0~60초   : Ramp-up (150명까지 점진적 증가, 한계 이하)
+        (540, 150, 1),    # 60~540초 : Steady  (150명 유지, 약 8분)
+        (600, 0,   20),   # 540~600초: Ramp-down
     ]
 
     def tick(self):
