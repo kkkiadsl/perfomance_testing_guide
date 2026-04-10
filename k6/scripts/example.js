@@ -22,8 +22,8 @@ export const options = {
   // 시나리오: 단계적 부하 증가 (Ramp-up)
   stages: [
     { duration: '30s', target: 10 },  // 30초 동안 10명까지 증가
-    { duration: '1m',  target: 50 },  // 1분 동안 50명까지 증가
-    { duration: '2m',  target: 50 },  // 2분 동안 50명 유지
+    { duration: '1m',  target: 1000 },  // 1분 동안 50명까지 증가
+    { duration: '2m',  target: 1000 },  // 2분 동안 50명 유지
     { duration: '30s', target: 0  },  // 30초 동안 0명으로 감소
   ],
 
