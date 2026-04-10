@@ -25,6 +25,17 @@ pip install locust
 locust --version
 ```
 
+> **`locust: command not found` 오류 발생 시**
+> `pip install` 후에도 명령이 인식되지 않으면 아래 방법을 시도한다.
+>
+> ```bash
+> # pip3로 재설치
+> pip3 install locust
+>
+> # 또는 python 모듈로 직접 실행
+> python3 -m locust -f 01_load_test.py --host=http://localhost:8080
+> ```
+
 ### 2단계: 대상 서버 실행
 
 성능 테스트를 받을 샘플 API 서버를 먼저 실행한다.
